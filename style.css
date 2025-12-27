@@ -13,10 +13,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* Changed from height to min-height */
     background-color: var(--bg-constant-pink);
     font-family: 'Georgia', serif;
-    overflow: hidden; 
+    overflow-y: auto; /* Allow vertical scrolling */
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -156,26 +156,49 @@ body {
 
 #letter-stage {
     display: none;
-    width: 100vw; height: 100vh;
-    justify-content: center; align-items: center;
-    z-index: 100; perspective: 2000px; 
+    width: 100vw;
+    min-height: 100vh; /* Use min-height so it can expand */
+    padding: 20px 0; /* Adds a little space at top/bottom when scrolling */
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    perspective: 2000px;
 }
 
 .flip-card {
-    width: 92%; max-width: 1100px; height: 94vh;
-    position: relative; transform-style: preserve-3d;
+    width: 92%;
+    max-width: 1100px;
+    height: auto; /* Let the height be determined by the content */
+    min-height: 90vh; 
+    position: relative;
+    transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .flip-card.is-flipped { transform: rotateY(180deg); }
 
 .full-letter {
-    width: 100%; height: 100%; background-color: var(--paper-base);
-    position: absolute; box-shadow: 0 15px 45px rgba(0,0,0,0.3);
-    padding: 30px 50px; box-sizing: border-box;
-    display: flex; flex-direction: column; justify-content: space-between;
+    width: 100%;
+    height: auto; /* Changed from 100% */
+    min-height: 100%;
+    background-color: var(--paper-base);
+    position: relative; /* Changed from absolute */
+    box-shadow: 0 15px 45px rgba(0,0,0,0.3);
+    padding: 30px 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Changed from space-between */
     backface-visibility: hidden;
-    clip-path: polygon(0% 1%, 10% 0%, 25% 1%, 40% 0%, 55% 1%, 70% 0%, 85% 1%, 100% 0%, 99% 15%, 100% 35%, 98% 55%, 100% 75%, 99% 90%, 100% 100%, 85% 99%, 65% 100%, 45% 99%, 25% 100%, 5% 99%, 0% 100%, 1% 80%, 0% 60%, 1% 40%, 0% 20%, 1% 5%);
+    /* Keep your clip-path code here */
+}
+
+/* This keeps the back page hidden behind the front until flipped */
+.letter-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(180deg);
 }
 
 .letter-back { transform: rotateY(180deg); }
